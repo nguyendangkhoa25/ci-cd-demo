@@ -1,0 +1,7 @@
+com/tma/khoanguyen/cicddemo/service/UserService.class
+com/tma/khoanguyen/cicddemo/service/UserServiceImpl.class
+com/tma/khoanguyen/cicddemo/model/User.class
+com/tma/khoanguyen/cicddemo/configuration/CORSFilter.class
+com/tma/khoanguyen/cicddemo/controller/HelloWorldRestController.class
+com/tma/khoanguyen/cicddemo/configuration/HelloWorldInitializer.class
+com/tma/khoanguyen/cicddemo/configuration/HelloWorldConfiguration.class
