@@ -27,6 +27,11 @@ public class HelloWorldRestController {
         }
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
+    @RequestMapping(value = "/hello/", method = RequestMethod.GET)
+    public String helloWorld() {
+
+        return "Hello User";
+    }
 
     // -------------------Retrieve Single User----------------------------------
 
