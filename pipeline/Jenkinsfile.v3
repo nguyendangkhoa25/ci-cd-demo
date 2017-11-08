@@ -36,7 +36,7 @@ node {
 
               // Run application using Docker image
               //sh "docker run nguyendangkhoa25/ci-cd-demo:${commit_id}"
-              sh "docker run --name maven-demo:${commit_id} -it -p 8071:8071 -d maven-demo:${commit_id}"
+              sh "containerId=$(docker run --name maven-demo:${commit_id} -it -p 8071:8071 -d maven-demo:${commit_id})"
 
               // Run tests using Maven
               //dir ('SpringSecurityRememberMeAnnotationExample') {
@@ -62,6 +62,6 @@ node {
       throw e;
     }
     finally{
-        sh "docker stop maven-demo:${commit_id}"
+        sh "docker stop $containerId"
     }
 }
