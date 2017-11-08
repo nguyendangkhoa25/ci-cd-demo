@@ -16,7 +16,6 @@ node {
                 sh 'mvn clean install' 
          }
       }                                     
-       }
      } catch(e) {
       // mark build as failed
       currentBuild.result = "FAILURE";
