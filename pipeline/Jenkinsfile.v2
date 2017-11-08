@@ -1,40 +1,24 @@
-node {
 
-   // job
-  try {
-
-      def commit_id
-       stage('Preparation') {
-         checkout scm
-         sh "git rev-parse --short HEAD > .git/commit-id"
-         commit_id = readFile('.git/commit-id').trim()
-       }
-agent {
-        docker {
-            image 'maven:3-alpine' 
-            args '-v /root/.m2:/root/.m2' 
-        }
+pipeline {
+    agent any
+    tools {
+        maven 'Maven 3.3.9'
+        jdk 'jdk8'
     }
     stages {
-        stage('Build') { 
+        stage ('Initialize') {
             steps {
-                sh 'mvn clean install' 
+                sh '''
+                    echo "PATH = ${PATH}"
+                    echo "M2_HOME = ${M2_HOME}"
+                '''
+            }
+        }
+
+        stage ('Build') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true install' 
             }
         }
     }
-
-
-
-
-
-     } catch(e) {
-      // mark build as failed
-      currentBuild.result = "FAILURE";
-
-      // send slack notification
-      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-      // throw the error
-      throw e;
-  }
-}                                          
+}
