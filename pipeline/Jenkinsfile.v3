@@ -1,29 +1,17 @@
+node("docker") {
+    docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
+    
 
-pipeline {
-    agent any
-    tools {
-        jdk 'jdk8'
-        maven 'maven3'
-    }
-    stages {
-        def commit_id
-        stage('Preparation') {
-         checkout scm
-         sh "git rev-parse --short HEAD > .git/commit-id"
-         commit_id = readFile('.git/commit-id').trim()
-        }
-
-        stage('test java installation') {
-            steps {
-                sh 'java -version'
-                sh 'which java'
-            }
-        }
-        stage('test maven installation') {
-            steps {
-                sh 'mvn -version'
-                sh 'which mvn'
-            }
-        }
+        checkout scm
+        sh "git rev-parse HEAD > .git/commit-id"
+        def commit_id = readFile('.git/commit-id').trim()
+        println commit_id
+    
+        stage "build"
+        def app = docker.build "your-project-name"
+    
+        stage "publish"
+        app.push 'master'
+        app.push "${commit_id}"
     }
 }
