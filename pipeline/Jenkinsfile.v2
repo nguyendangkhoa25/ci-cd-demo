@@ -1,29 +1,39 @@
+
 node {
-   // job
-  try {
-       def commit_id
-       def myGradleContainer = docker.image('maven:3.3.9-jdk-9')
-       myGradleContainer.pull()
-       stage('Preparation') {
-         checkout scm
-         sh "git rev-parse --short HEAD > .git/commit-id"
-         commit_id = readFile('.git/commit-id').trim()
-       }
+    def server
+    def buildInfo
+    def rtMaven
+    
+    stage ('Clone') {
+        git url: 'https://github.com/nguyendangkhoa25/ci-cd-demo.git'
+    }
+ 
+    stage ('Artifactory configuration') {
+        // Obtain an Artifactory server instance, defined in Jenkins --> Manage:
+        server = Artifactory.server SERVER_ID
 
-      stage('Run Gradle Test') {
-         myGradleContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-                sh 'cd SpringHibernateExample'
-                sh 'mvn clean install' 
-         }
-      }                                     
-     } catch(e) {
-      // mark build as failed
-      currentBuild.result = "FAILURE";
+        rtMaven = Artifactory.newMavenBuild()
+        rtMaven.tool = MAVEN_TOOL // Tool name from Jenkins configuration
+        rtMaven.deployer releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local', server: server
+        rtMaven.resolver releaseRepo: 'libs-release', snapshotRepo: 'libs-snapshot', server: server
+        rtMaven.deployer.deployArtifacts = false // Disable artifacts deployment during Maven run
 
-      // send slack notification
-      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
-      // throw the error
-      throw e;
-  }
-}                                          
+        buildInfo = Artifactory.newBuildInfo()
+    }
+ 
+    stage ('Test') {
+        rtMaven.run pom: 'SpringHibernateExample/pom.xml', goals: 'clean test'
+    }
+        
+    stage ('Install') {
+        rtMaven.run pom: 'SpringHibernateExample/pom.xml', goals: 'install', buildInfo: buildInfo
+    }
+ 
+    stage ('Deploy') {
+        rtMaven.deployer.deployArtifacts buildInfo
+    }
+        
+    stage ('Publish build info') {
+        server.publishBuildInfo buildInfo
+    }
+}
