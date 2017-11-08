@@ -1,6 +1,8 @@
 node {
-   // job
+
+
   try {
+
        def commit_id
        def mavenContainer = docker.image('maven:latest')
        mavenContainer.pull()
@@ -10,18 +12,22 @@ node {
          commit_id = readFile('.git/commit-id').trim()
        }
 
-      stage('Run Test') {
+      stage('Maven Build') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-                sh 'mvn clean install -f SpringHibernateExample/pom.xml'
+            sh 'mvn install clean -DskipTests -f SpringHibernateExample/pom.xml'
          }
-      }                                     
+      }
+      stage('Execute the unit test') {
+         mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
+            sh 'mvn test -f SpringHibernateExample/pom.xml'
+         }
+      }
+
      } catch(e) {
       // mark build as failed
       currentBuild.result = "FAILURE";
-
       // send slack notification
       slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-
       // throw the error
       throw e;
   }
