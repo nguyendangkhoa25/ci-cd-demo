@@ -12,7 +12,7 @@ node {
       mavenContainer.pull()
 
       stage('Build Maven Project') {
-         mavenContainer.inside("-v ${env.MAVEN_HOME}:$MAVEN_HOME") {
+         mavenContainer.inside("-v ${env.MAVEN_HOME}/bin:$MAVEN_HOME/bin") {
                 sh 'cd SpringHibernateExample'
                 sh 'mvn --version' 
                 //sh 'mvn clean install' 
