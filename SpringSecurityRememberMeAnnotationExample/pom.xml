@@ -119,7 +119,7 @@
 			      <version>1.0.0</version>
 			      <configuration>
 			        <imageName>java-demo</imageName>
-			        <dockerDirectory>${basedir}/docker</dockerDirectory>
+			        <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
 			        <resources>
 			           <resource>
 			             <targetPath></targetPath>
