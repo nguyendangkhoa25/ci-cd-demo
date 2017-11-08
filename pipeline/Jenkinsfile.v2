@@ -2,7 +2,7 @@ node {
    // job
   try {
        def commit_id
-       def myGradleContainer = docker.image('gradle:jdk8-alpine')
+       def myGradleContainer = docker.image('maven:jdk8-alpine')
        myGradleContainer.pull()
        stage('Preparation') {
          checkout scm
