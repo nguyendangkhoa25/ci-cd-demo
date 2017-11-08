@@ -1,0 +1,37 @@
+node {
+agent any
+
+   // job
+  try {
+        tools {
+          maven 'Maven 3.3.9'
+          jdk 'jdk8'
+      }
+      stages {
+          stage ('Initialize') {
+              steps {
+                  sh '''
+                      echo "PATH = ${PATH}"
+                      echo "M2_HOME = ${M2_HOME}"
+                  '''
+              }
+          }
+
+          stage ('Build') {
+              steps {
+                  sh 'mvn clean install' 
+              }
+          }
+      }
+
+     } catch(e) {
+      // mark build as failed
+      currentBuild.result = "FAILURE";
+
+      // send slack notification
+      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+
+      // throw the error
+      throw e;
+  }
+}                                          
