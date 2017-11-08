@@ -13,7 +13,7 @@ node {
       stage('Run Test') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
                 sh 'cd SpringHibernateExample'
-                sh 'pwd'
+                sh 'ls -al'
                 sh 'mvn -version' 
          }
       }                                     
