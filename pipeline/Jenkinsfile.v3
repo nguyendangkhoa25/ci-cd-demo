@@ -21,7 +21,7 @@ node {
   stage('Build Docker Image') {
     dir('SpringSecurityRememberMeAnnotationExample') {
 
-        docker.build("-t maven-demo")
+        docker.build("maven-demo:${commit_id}")
         //docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
         //    docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}")
         //}
@@ -34,7 +34,7 @@ stage ('Run Application') {
 
       // Run application using Docker image
       //sh "docker run nguyendangkhoa25/ci-cd-demo:${commit_id}"
-      sh "docker run -it -p 8071:8071 -d maven-demo --name maven-demo"
+      sh "docker run -it -p 8071:8071 -d maven-demo:${commit_id} --name maven-demo"
 
       // Run tests using Maven
       //dir ('SpringSecurityRememberMeAnnotationExample') {
