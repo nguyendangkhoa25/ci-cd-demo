@@ -13,7 +13,6 @@ node {
     }
   }
 
-
   stage('Create Docker Image') {
     dir('SpringSecurityRememberMeAnnotationExample') {
       docker.build("arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}")
