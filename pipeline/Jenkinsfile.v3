@@ -1,17 +1,43 @@
-node("docker") {
-    docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
-    
-
-        checkout scm
-        sh "git rev-parse HEAD > .git/commit-id"
-        def commit_id = readFile('.git/commit-id').trim()
-        println commit_id
-    
-        stage "build"
-        def app = docker.build "your-project-name"
-    
-        stage "publish"
-        app.push 'master'
-        app.push "${commit_id}"
+node {
+  
+  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}"
+    def commit_id
+    stage('Preparation') {
+    checkout scm
+     sh "git rev-parse --short HEAD > .git/commit-id"
+     commit_id = readFile('.git/commit-id').trim()
     }
+  stage('Package') {
+    dir('SpringSecurityRememberMeAnnotationExample') {
+      sh 'mvn clean install -DskipTests'
+    }
+  }
+
+
+  stage('Create Docker Image') {
+    dir('SpringSecurityRememberMeAnnotationExample') {
+      docker.build("arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}")
+    }
+  }
+
+  stage ('Run Application') {
+    try {
+      // Start database container here
+      // sh 'docker run -d --name db -p 8091-8093:8091-8093 -p 11210:11210 arungupta/oreilly-couchbase:latest'
+
+      // Run application using Docker image
+      //sh "DB=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' db`"
+      //sh "docker run -e DB_URI=$DB arungupta/docker-jenkins-pipeline:${env.BUILD_NUMBER}"
+
+      // Run tests using Maven
+      //dir ('webapp') {
+      //  sh 'mvn exec:java -DskipTests'
+      //}
+    } catch (error) {
+    } finally {
+      // Stop and remove database container here
+      //sh 'docker-compose stop db'
+      //sh 'docker-compose rm db'
+    }
+  }
 }
