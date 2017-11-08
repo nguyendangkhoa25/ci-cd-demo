@@ -113,8 +113,25 @@
 						<failOnMissingWebXml>false</failOnMissingWebXml>
 					</configuration>
 				</plugin>
+				 <plugin>
+			      <groupId>com.spotify</groupId>
+			      <artifactId>docker-maven-plugin</artifactId>
+			      <version>1.0.0</version>
+			      <configuration>
+			        <imageName>java-demo</imageName>
+			        <dockerDirectory>docker</dockerDirectory>
+			        <resources>
+			           <resource>
+			             <targetPath>/</targetPath>
+			             <directory>${project.build.directory}</directory>
+			             <include>${project.build.finalName}.war</include>
+			           </resource>
+			        </resources>
+			      </configuration>
+			    </plugin>
 			</plugins>
 		</pluginManagement>
 		<finalName>maven-demo</finalName>
 	</build>
+
 </project>
