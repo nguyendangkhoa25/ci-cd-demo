@@ -4,11 +4,6 @@ node {
        def commit_id
        def mavenContainer = docker.image('maven:3.3.9-jdk-9')
        mavenContainer.pull()
-       stage('Preparation') {
-         checkout scm
-         sh "git rev-parse --short HEAD > .git/commit-id"
-         commit_id = readFile('.git/commit-id').trim()
-       }
 
       stage('Run Test') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
