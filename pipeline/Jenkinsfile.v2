@@ -2,7 +2,6 @@ node {
 
 
   try {
- stages {
        def commit_id
        def mavenContainer = docker.image('maven:latest')
        mavenContainer.pull()
@@ -35,7 +34,7 @@ node {
            docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}", '.').push()
          }                                     
        }
-}
+
      } catch(e) {
       // mark build as failed
       currentBuild.result = "FAILURE";
