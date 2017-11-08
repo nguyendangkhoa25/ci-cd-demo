@@ -12,6 +12,7 @@ RUN mkdir -p /usr/local/tomcat/webapps/ROOT
 
 #Copy war file to tomcat root
 RUN ls -al .
+RUN pwd
 RUN \cp ./SpringSecurityRememberMeAnnotationExample/target/maven-demo.war /usr/local/tomcat/webapps/demo.war
 
 RUN chmod +x /usr/local/tomcat/webapps/demo.war
