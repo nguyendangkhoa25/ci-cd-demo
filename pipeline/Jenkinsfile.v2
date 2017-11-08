@@ -19,7 +19,7 @@ node {
       }
       stage('Execute the unit test') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-            sh 'mvn --version"
+            sh 'mvn --version'
             //sh 'mvn test -f SpringSecurityRememberMeAnnotationExample/pom.xml'
          }
       }
