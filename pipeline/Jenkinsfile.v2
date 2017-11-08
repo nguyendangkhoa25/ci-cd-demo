@@ -4,6 +4,7 @@ node {
   try {
 
        def commit_id
+       def app
        def mavenContainer = docker.image('maven:latest')
        mavenContainer.pull()
        stage('Preparation') {
@@ -24,12 +25,18 @@ node {
          }
       }
 
+    stage('Build image') {
+        /* This builds the actual image; synonymous to
+         * docker build on the command line */
+
+        app = docker.build("nguyendangkhoa25/ci-cd-demo/")
+    }
       stage('docker build/push') {            
          docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
            def app = docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}", '.').push()
          }                                     
        }
-       
+
      } catch(e) {
       // mark build as failed
       currentBuild.result = "FAILURE";
