@@ -2,7 +2,7 @@ node {
    // job
   try {
        def commit_id
-       def mavenContainer = docker.image('maven:3.3.9-jdk-9')
+       def mavenContainer = docker.image('maven:latest')
        mavenContainer.pull()
        stage('Preparation') {
          checkout scm
@@ -12,7 +12,7 @@ node {
 
       stage('Run Test') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-                sh 'pwd && cd SpringHibernateExample && mvn clean install'
+                sh 'mvn clean install -f SpringHibernateExample/pom.xml'
          }
       }                                     
      } catch(e) {
