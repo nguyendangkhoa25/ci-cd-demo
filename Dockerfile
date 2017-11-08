@@ -11,10 +11,7 @@ RUN sed -i 's/port="8080"/port="8071"/' /usr/local/tomcat/conf/server.xml
 RUN mkdir -p /usr/local/tomcat/webapps/ROOT
 
 #Copy war file to tomcat root
-RUN ls -al
-RUN cd ../../../
-RUN pwd
-COPY SpringSecurityRememberMeAnnotationExample/target/maven-demo.war /usr/local/tomcat/webapps/demo.war
+RUN cp SpringSecurityRememberMeAnnotationExample/target/maven-demo.war /usr/local/tomcat/webapps/demo.war
 
 RUN chmod +x /usr/local/tomcat/webapps/demo.war
 
