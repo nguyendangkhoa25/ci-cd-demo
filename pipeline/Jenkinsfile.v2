@@ -14,15 +14,21 @@ node {
 
       stage('Maven Build') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-            sh 'mvn install clean -DskipTests -f SpringHibernateExample/pom.xml'
+            sh 'mvn install clean -DskipTests -f SpringSecurityRememberMeAnnotationExample/pom.xml'
          }
       }
       stage('Execute the unit test') {
          mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-            sh 'mvn test -f SpringHibernateExample/pom.xml'
+            sh 'mvn --version"
+            //sh 'mvn test -f SpringSecurityRememberMeAnnotationExample/pom.xml'
          }
       }
 
+      stage('docker build/push') {            
+         docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
+           def app = docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}", '.').push()
+         }                                     
+       }
      } catch(e) {
       // mark build as failed
       currentBuild.result = "FAILURE";
