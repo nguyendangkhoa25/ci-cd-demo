@@ -36,7 +36,7 @@ node {
 
               // Run application using Docker image
               //sh "docker run nguyendangkhoa25/ci-cd-demo:${commit_id}"
-              sh "docker run -it -p 8071:8071 -d maven-demo:${commit_id}"
+              sh "docker run -it -p 8071:8071 -d maven-demo:${commit_id} -name maven-demo:${commit_id}"
 
               // Run tests using Maven
               //dir ('SpringSecurityRememberMeAnnotationExample') {
@@ -60,5 +60,8 @@ node {
       slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
       // throw the error
       throw e;
+    }
+    finally{
+        sh "docker stop maven-demo:${commit_id}"
     }
 }
