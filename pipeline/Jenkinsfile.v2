@@ -24,11 +24,11 @@ node {
          }
       }
 
-      stage('Maven Build') {
-         mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
-            sh 'sudo mvn clean package docker:build -f SpringSecurityRememberMeAnnotationExample/pom.xml -X'
-         }
-      }
+      //stage('Maven Build') {
+      //   mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
+      //      sh 'sudo mvn clean package docker:build -f SpringSecurityRememberMeAnnotationExample/pom.xml -X'
+      //   }
+      //}
 
       stage('docker build/push') {            
          docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
