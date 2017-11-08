@@ -2,20 +2,19 @@ node {
    // job
   try {
        def commit_id
+       def mavenContainer = docker.image('maven:3.3.9-jdk-9')
+       mavenContainer.pull()
        stage('Preparation') {
          checkout scm
          sh "git rev-parse --short HEAD > .git/commit-id"
          commit_id = readFile('.git/commit-id').trim()
        }
 
-      def mavenContainer = docker.image('maven:3.3.9-jdk-9')
-      mavenContainer.pull()
-
-      stage('Build Maven Project') {
-         mavenContainer.inside("-v ${env.MAVEN_HOME}/bin:$MAVEN_HOME/bin") {
+      stage('Run Test') {
+         mavenContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
                 sh 'cd SpringHibernateExample'
-                sh 'mvn --version' 
-                //sh 'mvn clean install' 
+                sh 'pwd'
+                sh 'mvn -version' 
          }
       }                                     
      } catch(e) {
