@@ -30,7 +30,8 @@ node {
       //   }
       //}
 
-      stage('docker build/push') {            
+      stage('docker build/push') {   
+      checkout scm         
          docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
            docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}", '.').push()
          }                                     
