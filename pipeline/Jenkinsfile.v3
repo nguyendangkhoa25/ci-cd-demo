@@ -63,7 +63,7 @@ node {
     }
     finally{
         stage('Clean Up') {
-            sh "docker stop $(cat containerID)"
+            sh "docker stop '$(cat containerID)'"
             sh "rm containerID"
         }
     }
