@@ -1,6 +1,6 @@
 node {
   
-  env.PATH = "${tool 'Maven3'}/bin:${env.PATH}"
+  env.PATH = "/usr/share/maven/bin:${env.PATH}"
   sh echo ${env.PATH}
     def commit_id
     stage('Preparation') {
