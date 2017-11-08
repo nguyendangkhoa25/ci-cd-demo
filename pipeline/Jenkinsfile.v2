@@ -11,9 +11,10 @@ node {
        }
 
       stage('Run Test') {
-         mavenContainer.inside("-v ${env.MAVEN_HOME}/bin:/home/.m2") {
+         mavenContainer.inside("-v ${env.MAVEN_HOME}/bin:/home/.m2 -v /var/lib/jenkins/workspace/ci-cd-demo:/var/lib/jenkins/workspace/ci-cd-demo") {
                 sh 'cd SpringHibernateExample'
                 sh 'mvn --version' 
+                sh 'mvn clean install' 
          }
       }                                     
      } catch(e) {
