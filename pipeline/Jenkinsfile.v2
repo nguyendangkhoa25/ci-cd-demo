@@ -4,7 +4,6 @@ node {
   try {
 
        def commit_id
-       def app
        def mavenContainer = docker.image('maven:latest')
        mavenContainer.pull()
        stage('Preparation') {
