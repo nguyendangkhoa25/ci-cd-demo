@@ -1,16 +1,30 @@
-pipeline {
-    agent {
-        docker {
-            image 'maven:3.3.9' 
-            args '-v /root/.m2:/root/.m2' 
-        }
-    }
-    stages {
-        stage('Build') { 
-            steps {
+node {
+   // job
+  try {
+       def commit_id
+       def myGradleContainer = docker.image('gradle:jdk8-alpine')
+       myGradleContainer.pull()
+       stage('Preparation') {
+         checkout scm
+         sh "git rev-parse --short HEAD > .git/commit-id"
+         commit_id = readFile('.git/commit-id').trim()
+       }
+
+      stage('Run Gradle Test') {
+         myGradleContainer.inside("-v ${env.HOME}/.m2:/home/.m2") {
                 sh 'cd SpringHibernateExample'
                 sh 'mvn clean install' 
-            }
-        }
-    }
-}
+         }
+      }                                     
+       }
+     } catch(e) {
+      // mark build as failed
+      currentBuild.result = "FAILURE";
+
+      // send slack notification
+      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+
+      // throw the error
+      throw e;
+  }
+}                                          
