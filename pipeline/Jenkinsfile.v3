@@ -1,5 +1,8 @@
 node {
-  
+
+  try {
+
+  //Current maven directory
   env.PATH = "/usr/share/maven/bin:${env.PATH}"
     def commit_id
     stage('Preparation') {
@@ -15,7 +18,7 @@ node {
       stage('Execute the unit test') {
          dir('SpringSecurityRememberMeAnnotationExample') {
             sh 'mvn --version'
-            //sh 'mvn test -f SpringSecurityRememberMeAnnotationExample/pom.xml'
+            sh 'mvn test'
          }
       }
   stage('Build Docker Image') {
@@ -28,8 +31,7 @@ node {
     }
   }
 
-stage ('Run Application') {
-    try {
+stage ('Run Test Docker Container') {
       // Start database container here
 
       // Run application using Docker image
@@ -40,21 +42,22 @@ stage ('Run Application') {
       //dir ('SpringSecurityRememberMeAnnotationExample') {
       //  sh 'mvn exec:java -DskipTests'
       //}
-    } catch (error) {
-    } 
   }
 
-  stage('Run Tests') {
-    try {
+  stage('Publish Docker Image to Regitry) {
       dir('SpringSecurityRememberMeAnnotationExample') {
         sh "mvn test"
         docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub') {
             docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}").push()
         }
       }
-    } catch (error) {
-
-    } 
   }
-
+     } catch(e) {
+      // mark build as failed
+      currentBuild.result = "FAILURE";
+      // send slack notification
+      slackSend (color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+      // throw the error
+      throw e;
+  }
 }
