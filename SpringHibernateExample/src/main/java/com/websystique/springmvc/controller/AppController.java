@@ -1,10 +1,7 @@
 package com.websystique.springmvc.controller;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.validation.Valid;
-
+import com.websystique.springmvc.model.Employee;
+import com.websystique.springmvc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -15,12 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.websystique.springmvc.model.Employee;
-import com.websystique.springmvc.service.EmployeeService;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/")
 public class AppController {
+
 
 	@Autowired
 	EmployeeService service;
@@ -56,7 +55,7 @@ public class AppController {
 	 */
 	@RequestMapping(value = { "/new" }, method = RequestMethod.POST)
 	public String saveEmployee(@Valid Employee employee, BindingResult result,
-			ModelMap model) {
+							   ModelMap model) {
 
 		if (result.hasErrors()) {
 			return "registration";
@@ -128,4 +127,9 @@ public class AppController {
 		return "redirect:/list";
 	}
 
+	@RequestMapping(value = { "welcome" }, method = RequestMethod.GET)
+	public String welcome(ModelMap model) {
+		model.addAttribute("message", "Hello World!");
+		return "welcome";
+	}
 }

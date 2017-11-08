@@ -1,3 +1,17 @@
 FROM tomcat:8.0.20-jre8
-RUN mkdir /usr/local/tomcat/webapps/myapp
-COPY SpringHibernateExample/target/my-app-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/myapp.war /usr/local/tomcat/webapps/myapp/
+
+# set java-demo
+LABEL java-demo "nguyendangkhoa25@gmail.com"
+
+#Clean old folder
+RUN sed -i 's/port="8080"/port="8071"/' /usr/local/tomcat/conf/server.xml 
+
+RUN mkdir -p /usr/local/tomcat/webapps/ROOT
+
+#Copy war file to tomcat root
+COPY SpringHibernateExample/target/ROOT.war /usr/local/tomcat/webapps/demo.war
+
+RUN chmod +x /usr/local/tomcat/webapps/demo.war
+
+# tell docker what port to expose
+EXPOSE 8071

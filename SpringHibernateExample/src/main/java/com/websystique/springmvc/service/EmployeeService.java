@@ -6,7 +6,7 @@ import com.websystique.springmvc.model.Employee;
 
 public interface EmployeeService {
 
-	Employee findById(int id);
+	Employee findById(long id);
 	
 	void saveEmployee(Employee employee);
 	
@@ -18,6 +18,6 @@ public interface EmployeeService {
 	
 	Employee findEmployeeBySsn(String ssn);
 
-	boolean isEmployeeSsnUnique(Integer id, String ssn);
+	boolean isEmployeeSsnUnique(Long id, String ssn);
 	
 }

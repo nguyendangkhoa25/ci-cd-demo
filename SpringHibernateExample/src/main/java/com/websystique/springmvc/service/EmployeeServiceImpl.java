@@ -1,59 +1,71 @@
 package com.websystique.springmvc.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import com.websystique.springmvc.dao.EmployeeDao;
+import java.util.concurrent.atomic.AtomicLong;
 import com.websystique.springmvc.model.Employee;
 
-@Service("employeeService")
-@Transactional
-public class EmployeeServiceImpl implements EmployeeService {
 
-	@Autowired
-	private EmployeeDao dao;
+public class EmployeeServiceImpl implements EmployeeService {
+	private static final AtomicLong counter = new AtomicLong();
+
+	private static List<Employee> employees;
 	
-	public Employee findById(int id) {
-		return dao.findById(id);
+	public Employee findById(long id) {
+		for (Employee employee : employees) {
+			if (employee.getId() == id) {
+				return employee;
+			}
+		}
+		return null;
 	}
 
 	public void saveEmployee(Employee employee) {
-		dao.saveEmployee(employee);
+		employee.setId((int)counter.incrementAndGet());
+		employees.add(employee);
 	}
 
-	/*
-	 * Since the method is running with Transaction, No need to call hibernate update explicitly.
-	 * Just fetch the entity from db and update it with proper values within transaction.
-	 * It will be updated in db once transaction ends. 
-	 */
 	public void updateEmployee(Employee employee) {
-		Employee entity = dao.findById(employee.getId());
-		if(entity!=null){
-			entity.setName(employee.getName());
-			entity.setJoiningDate(employee.getJoiningDate());
-			entity.setSalary(employee.getSalary());
-			entity.setSsn(employee.getSsn());
-		}
+		int index = employees.indexOf(employee);
+		employees.set(index, employee);
 	}
 
 	public void deleteEmployeeBySsn(String ssn) {
-		dao.deleteEmployeeBySsn(ssn);
+		for (Iterator<Employee> iterator = employees.iterator(); iterator.hasNext();) {
+			Employee employee = iterator.next();
+			if (employee.getSsn() == ssn) {
+				iterator.remove();
+			}
+		}
 	}
 	
 	public List<Employee> findAllEmployees() {
-		return dao.findAllEmployees();
+		return employees;
 	}
 
 	public Employee findEmployeeBySsn(String ssn) {
-		return dao.findEmployeeBySsn(ssn);
+		for (Employee employee : employees) {
+			if (employee.getSsn() == ssn) {
+				return employee;
+			}
+		}
+		return null;
 	}
 
-	public boolean isEmployeeSsnUnique(Integer id, String ssn) {
+	public boolean isEmployeeSsnUnique(Long id, String ssn) {
 		Employee employee = findEmployeeBySsn(ssn);
 		return ( employee == null || ((id != null) && (employee.getId() == id)));
+	}
+
+	private static List<Employee> populateDummyEmployee() {
+		List<Employee> employees = new ArrayList<Employee>();
+		employees.add(new Employee(counter.incrementAndGet(), "Sam", 30, 70000 ,"aa"));
+		employees.add(new Employee(counter.incrementAndGet(), "Tom", 40, 50000 , "bb"));
+		employees.add(new Employee(counter.incrementAndGet(), "Jerome", 45, 30000, "cc"));
+		employees.add(new Employee(counter.incrementAndGet(), "Silvia", 50, 40000, "dd"));
+		return employees;
 	}
 	
 }

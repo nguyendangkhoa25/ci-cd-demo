@@ -1,8 +1,4 @@
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/dao/AbstractDao.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/controller/AppController.java
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/configuration/HibernateConfiguration.java
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/dao/EmployeeDaoImpl.java
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/dao/EmployeeDao.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/service/EmployeeService.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/service/EmployeeServiceImpl.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/main/java/com/websystique/springmvc/model/Employee.java

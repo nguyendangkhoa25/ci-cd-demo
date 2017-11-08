@@ -1,5 +1,2 @@
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/test/java/com/websystique/springmvc/dao/EmployeeDaoImplTest.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/test/java/com/websystique/springmvc/controller/AppControllerTest.java
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/test/java/com/websystique/springmvc/configuration/HibernateTestConfiguration.java
-/data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/test/java/com/websystique/springmvc/dao/EntityDaoImplTest.java
 /data/Omnivista/individual-projects/ci-cd-demo/SpringHibernateExample/src/test/java/com/websystique/springmvc/service/EmployeeServiceImplTest.java
