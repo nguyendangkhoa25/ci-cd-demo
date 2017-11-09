@@ -9,8 +9,8 @@ com/khoanguyen/springsecurity/configuration/HibernateConfiguration.class
 com/khoanguyen/springsecurity/dao/UserDaoImpl.class
 com/khoanguyen/springsecurity/service/CustomUserDetailsService.class
 com/khoanguyen/springsecurity/model/UserProfileType.class
+com/khoanguyen/springsecurity/service/UserService.class
 com/khoanguyen/springsecurity/configuration/SecurityConfiguration.class
 com/khoanguyen/springsecurity/controller/HelloWorldController.class
-com/khoanguyen/springsecurity/service/UserService.class
 com/khoanguyen/springsecurity/configuration/HelloWorldConfiguration.class
 com/khoanguyen/springsecurity/dao/UserDao.class

@@ -8,7 +8,7 @@ SpringHibernateExample/SpringHibernateExample.iml
 SpringHibernateExample/target/*
 demo-maven/.idea/*
 demo-maven/demo-maven.iml
-SpringSecurityRememberMeAnnotationExample/target/maven-archiver/pom.properties
-SpringSecurityRememberMeAnnotationExample/target/maven-demo.war
+SpringSecurityRememberMeAnnotationExample/target/*
+SpringSecurityRememberMeAnnotationExample/.idea*
 
 
