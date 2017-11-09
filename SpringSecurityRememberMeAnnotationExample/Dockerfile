@@ -1,7 +1,7 @@
 FROM tomcat:8.0.20-jre8
 
-# set java-demo
-LABEL java-demo "nguyendangkhoa25@gmail.com"
+# set ci-cd-demo
+LABEL ci-cd-demo "nguyendangkhoa25@gmail.com"
 
 WORKDIR /var/lib/jenkins/workspace/ci-cd-demo
 
