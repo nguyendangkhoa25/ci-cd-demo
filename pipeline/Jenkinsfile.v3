@@ -20,11 +20,11 @@ node {
                 sh 'mvn test'
             }
         }
-        stage('Build Docker Image') {
-            dir('SpringSecurityRememberMeAnnotationExample') {
-                docker.build("ci-cd-demo:${commit_id}")
-            }
-        }
+        //stage('Build Docker Image') {
+        //    dir('SpringSecurityRememberMeAnnotationExample') {
+        //        docker.build("ci-cd-demo:${commit_id}")
+        //    }
+        //}
 
         //stage ('Run Test Docker Container') {
               // Start database container here
