@@ -68,7 +68,7 @@ node {
 
         stage('Start Docker container') {
             dir('SpringSecurityRememberMeAnnotationExample') {
-                sh 'docker run --name ci-cd-demo -it -p 8071:8071 -d nguyendangkhoa25/ci-cd-demo:${commit_id}'
+                sh 'docker run --name ci-cd-demo -it -p 8071:8071 -d nguyendangkhoa25/ci-cd-demo:'${commit_id}
             }
          }
     }  
