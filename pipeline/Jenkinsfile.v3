@@ -62,7 +62,7 @@ node {
         stage('Prepare deploy') {
             dir('SpringSecurityRememberMeAnnotationExample') {
                 //stop and remove docker container
-                sh 'bash prepare-deploy.sh ci-cd-demo > /dev/null'
+                sh 'bash prepare-deploy.sh ci-cd-demo'
             }
         }
 
