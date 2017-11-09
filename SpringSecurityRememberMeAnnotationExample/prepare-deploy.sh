@@ -8,5 +8,6 @@ DOCKER_CONTAINER_ID="$1"
 
 docker stop ${DOCKER_CONTAINER_ID} > /dev/null
 docker rm ${DOCKER_CONTAINER_ID} > /dev/null
+
 echo "------------------- [END] Clean old Docker Container ---------------------"
 exit 0
