@@ -63,9 +63,7 @@ node {
         }
 
         stage('Start Docker container') {
-            dir('ci-cd-demo') {
-                sh 'docker run --name ci-cd-demo -it -p 8071:8071 -d nguyendangkhoa25/ci-cd-demo:$(cat .git/commit-id)'
-            }
+            sh 'docker run --name ci-cd-demo -it -p 8071:8071 -d nguyendangkhoa25/ci-cd-demo:$(cat .git/commit-id)'
          }
     }  
     catch(e) {
