@@ -17,7 +17,6 @@ node {
         }
         stage('Execute the unit test') {
             dir('SpringSecurityRememberMeAnnotationExample') {
-                sh 'mvn --version'
                 sh 'mvn test'
             }
         }
