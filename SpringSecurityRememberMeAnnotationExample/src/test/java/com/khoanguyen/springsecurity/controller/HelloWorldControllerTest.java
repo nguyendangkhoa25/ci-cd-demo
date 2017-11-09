@@ -30,7 +30,7 @@ public class HelloWorldControllerTest {
     }
     @Test
     public void testAdminPage(){
-        Assert.assertEquals(appController.adminPage(model), "admin");
+        Assert.assertEquals(appController.adminPage(model), "welcome");
     }
 
 }
