@@ -51,14 +51,27 @@ node {
         //    }
         // }
 
-        stage('Publish Docker Image to Regitry') {
+        stage('Download Docker Image') {
             dir('SpringSecurityRememberMeAnnotationExample') {
                 docker.withRegistry('https://index.docker.io/v1/', 'nguyendangkhoa25-doccker-hub'){
-                    docker.build("nguyendangkhoa25/ci-cd-demo:e2f0fb1").pull()
+                    docker.build("nguyendangkhoa25/ci-cd-demo:${commit_id}").pull()
                 }
             }
          }
 
+        stage('Prepare deploy') {
+            dir('SpringSecurityRememberMeAnnotationExample') {
+                //stop and remove docker container
+                sh 'docker stop ci-cd-demo > /dev/null'
+                sh 'docker rm ci-cd-demo > /dev/null'
+            }
+        }
+
+        stage('Start Docker container') {
+            dir('SpringSecurityRememberMeAnnotationExample') {
+                sh 'docker run --name ci-cd-demo -it -p 8071:8071 -d nguyendangkhoa25/ci-cd-demo:${commit_id}'
+            }
+         }
     }  
     catch(e) {
       // mark build as failed
