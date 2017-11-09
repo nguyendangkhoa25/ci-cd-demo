@@ -1,7 +1,12 @@
 #!/bin/bash  
+
+#load /etc/profile
+source /etc/environment
+
 echo "------------------- [BEGIN] Clean old Docker Container ---------------------"
-docker-container-name="$1"
-docker stop $docker-container-name > /dev/null
-docker rm $docker-container-name > /dev/null
+DOCKER_CONTAINER_ID="$1"
+
+docker stop ${DOCKER_CONTAINER_ID} > /dev/null
+docker rm ${DOCKER_CONTAINER_ID} > /dev/null
 echo "------------------- [END] Clean old Docker Container ---------------------"
-return 0
+exit 0
