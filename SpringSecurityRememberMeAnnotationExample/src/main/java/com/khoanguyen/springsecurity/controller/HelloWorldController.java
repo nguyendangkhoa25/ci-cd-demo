@@ -18,8 +18,8 @@ public class HelloWorldController {
 	
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
-		model.addAttribute("greeting", "Hi, Welcome to mysite");
-		return "welcome1";
+		model.addAttribute("greeting", "Hi, Thank for listening");
+		return "welcome";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
